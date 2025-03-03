@@ -16,7 +16,7 @@ class Node {
     }
 }
 
-public class LL4_doublyLL {
+public class LL4_doublyLL_deletions {
 
     public static Node array2DLL(int[] ar) {
         Node head = new Node(ar[0]);
@@ -51,6 +51,38 @@ public class LL4_doublyLL {
         return head;
     }
 
+    public static Node delKelement(Node head, int k) {
+        if (head == null || k <= 0) return head;
+    
+        if (k == 1) {
+            head = head.next;
+            if (head != null) head.back = null;
+            return head;
+        }
+    
+        Node temp = head;
+        int count = 1;
+    
+        while (temp != null) {
+            if (count == k) {
+                if (temp.next == null) {
+                    temp.back.next = null;
+                    temp.back = null;
+                } else {
+                    temp.back.next = temp.next;
+                    temp.next.back = temp.back;
+                }
+                temp.next = null;
+                temp.back = null;
+                return head;
+            }
+            temp = temp.next;
+            count++;
+        }
+    
+        return head;
+    }
+
     public static void printDLL(Node head) {
         Node temp = head;
         while (temp != null) {
@@ -64,14 +96,22 @@ public class LL4_doublyLL {
     public static void main(String[] args) {
         int[] ar = {10, 20, 30, 40, 50, 60};
         Node head = array2DLL(ar);
+
         System.out.println("Original Head: " + head.data);
         printDLL(head);
+
         head = delhead(head);
         System.out.println("\nUpdated Head: " + head.data);
         printDLL(head);
+
         head = delTail(head);
         System.out.println("\nUpdated tail: ");
         printDLL(head);
+
+        head = delKelement(head , 4);
+        System.out.println("\nUpdated LL : ");
+        printDLL(head);
+
 
     }
 }
